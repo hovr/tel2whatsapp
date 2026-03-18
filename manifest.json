@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "Tel to WhatsApp",
+  "version": "1.0.0",
+  "description": "Adds a right-click option to open phone numbers in WhatsApp.",
+  "permissions": [
+    "contextMenus"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}
