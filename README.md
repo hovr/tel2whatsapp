@@ -18,8 +18,8 @@ Chrome will then open WhatsApp Web in a new tab using that number.
 You will need:
 
 - Google Chrome
-- This extension folder on your computer
-- A WhatsApp account
+- This extension folder saved on your computer somewhere
+- A WhatsApp account and WhatsApp installed on your Mac/PC
 
 You do **not** need to install any extra software or type any code commands.
 
@@ -43,7 +43,7 @@ This sounds technical, but for this kind of extension it is just what allows Chr
 
 Click **Load unpacked**.
 
-When a folder window opens, choose this project folder:
+When a folder window opens, choose the project folder:
 
 `tel2whatsapp`
 
