@@ -64,6 +64,10 @@ If you can see it there, the setup is complete.
 3. Right-click the highlighted number
 4. Click **Open in WhatsApp**
 
+Example of the menu you should see:
+
+![Right-click menu showing the Open in WhatsApp option](screenshots/menu.jpg)
+
 ### Option 2: From a phone link
 
 Some websites make phone numbers clickable.
