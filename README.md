@@ -1,4 +1,4 @@
-# Tel to WhatsApp
+# Tel2WhatsApp
 
 This is a small Chrome extension that adds a right-click option called **Open in WhatsApp**.
 
@@ -51,7 +51,7 @@ Then click **Open**.
 
 ### 4. Check that it loaded
 
-You should now see **Tel to WhatsApp** in your list of Chrome extensions.
+You should now see **Tel2WhatsApp** in your list of Chrome extensions.
 
 If you can see it there, the setup is complete.
 
@@ -126,13 +126,13 @@ If the project folder was moved or deleted, Chrome may need you to load it again
 If someone updates the files in this folder, you can refresh the extension like this:
 
 1. Open `chrome://extensions`
-2. Find **Tel to WhatsApp**
+2. Find **Tel2WhatsApp**
 3. Click the refresh/reload icon on its card
 
 ## Removing the extension
 
 1. Open `chrome://extensions`
-2. Find **Tel to WhatsApp**
+2. Find **Tel2WhatsApp**
 3. Click **Remove**
 
 ## Files in this project
