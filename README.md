@@ -143,5 +143,7 @@ If someone updates the files in this folder, you can refresh the extension like 
 
 - `manifest.json` tells Chrome basic information about the extension
 - `background.js` handles the right-click menu and opens WhatsApp
+- `popup.html` and `popup.js` show a small extension popup
+- `version-check.js` checks GitHub for a newer version and shows an update link when one is available
 
 If you only want to use the extension, you do not need to edit these files.
