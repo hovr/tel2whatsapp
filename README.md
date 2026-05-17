@@ -94,6 +94,8 @@ Open the extension popup to choose your default country, for example:
 
 `🇬🇧 United Kingdom (+44)`
 
+![Country selector showing Guatemala selected](screenshots/country-selection.png)
+
 You can also click **Auto update Country** to detect your current country from your IP address and save it automatically.
 
 Examples:
