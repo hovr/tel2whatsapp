@@ -3,7 +3,7 @@
 <head>
   <style>
     body {
-      width: 280px;
+      width: 320px;
       padding: 16px;
       font-family: Arial, sans-serif;
       color: #1f2933;
@@ -25,6 +25,50 @@
       margin: 0;
       font-size: 13px;
       line-height: 1.4;
+    }
+    .setting {
+      margin: 14px 0 12px;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #374151;
+    }
+    select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #c9d1d9;
+      border-radius: 6px;
+      background: #fff;
+      color: #111827;
+      font-size: 13px;
+    }
+    .hint {
+      margin-top: 6px;
+      color: #52616b;
+      font-size: 12px;
+    }
+    .status {
+      display: none;
+      margin-top: 8px;
+      padding: 8px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      line-height: 1.35;
+    }
+    .status.info {
+      background-color: #E3F2FD;
+      color: #0D47A1;
+    }
+    .status.success {
+      background-color: #E8F5E9;
+      color: #1B5E20;
+    }
+    .status.warning {
+      background-color: #FFF8E1;
+      color: #8A5A00;
     }
     #versionNotice {
       display: none;
@@ -50,7 +94,16 @@
   <h2><img class="titleIcon" src="icons/whatsapp-48.png" alt="" />Tel2WhatsApp</h2>
   <div id="versionNotice"></div>
   <p>Highlight a phone number or right-click a tel link, then choose <strong>Open in WhatsApp</strong>.</p>
+
+  <div class="setting">
+    <label for="countrySelect">Default country for local numbers</label>
+    <select id="countrySelect" aria-label="Default country for local phone numbers"></select>
+    <p class="hint">Used when a number does not include an international prefix. Numbers starting with <strong>00</strong> are treated as international.</p>
+    <div id="countryStatus" class="status"></div>
+  </div>
+
   <script src="version-check.js"></script>
+  <script src="country-data.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>
