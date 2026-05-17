@@ -122,7 +122,7 @@ function renderIpComparison(ipInfo) {
 
   if (selectedCountry.code !== ipCountry.code) {
     setCountryStatus(
-      `Heads up: your saved country is ${Tel2WhatsAppCountryData.getCountryLabel(selectedCountry)}, but your current IP appears to be ${Tel2WhatsAppCountryData.getCountryLabel(ipCountry)}. If you are using a VPN, keep your saved country.`,
+      `Heads up: your saved country is ${Tel2WhatsAppCountryData.getCountryLabel(selectedCountry)}, but your current IP appears to be ${Tel2WhatsAppCountryData.getCountryLabel(ipCountry)}. If you are using a VPN it could be the issue.`,
       'warning'
     );
     return;
@@ -181,10 +181,18 @@ recheckIpButton?.addEventListener('click', async () => {
 
   try {
     const ipInfo = await fetchIpCountryInfo(true);
+    const ipCountry = Tel2WhatsAppCountryData.findCountryByCode(ipInfo?.countryCode);
+
+    if (!ipCountry) {
+      throw new Error('IP lookup did not return a supported country');
+    }
+
+    countrySelect.value = ipCountry.code;
+    await storageSet({ [SELECTED_COUNTRY_KEY]: ipCountry.code });
     renderIpComparison(ipInfo);
   } catch (error) {
-    setCountryStatus('IP country check unavailable. Try again later or keep your saved country.', 'info');
-    console.debug('IP country recheck skipped:', error?.message || error);
+    setCountryStatus('IP country check unavailable. Try again later or choose your country manually.', 'info');
+    console.debug('IP country auto-update skipped:', error?.message || error);
   } finally {
     recheckIpButton.disabled = false;
   }
