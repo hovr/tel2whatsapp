@@ -2,7 +2,7 @@
 
 Tel2WhatsApp is a simple Chrome extension that lets you open phone numbers in WhatsApp from any web page.
 
-## What it does
+## ✨ What it does
 
 - Adds a right-click option called **Open in WhatsApp**
 - Works with highlighted phone numbers
@@ -11,7 +11,7 @@ Tel2WhatsApp is a simple Chrome extension that lets you open phone numbers in Wh
 - Cleans up spaces, brackets, dashes, and other symbols automatically
 - Can add the correct country code for local numbers
 
-## How to install it
+## 🚀 How to install it
 
 1. [Download the ZIP file for this extension](https://github.com/hovr/tel2whatsapp/archive/refs/heads/main.zip).
 2. Open the ZIP file and move the extracted folder somewhere safe. Do not delete the folder after installing.
@@ -24,9 +24,9 @@ Tel2WhatsApp is a simple Chrome extension that lets you open phone numbers in Wh
 6. Select the extracted `tel2whatsapp` folder.
 7. The extension should now appear in Chrome.
 
-## How to use it
+## 📱 How to use it
 
-### Open a highlighted number
+### 🔢 Open a highlighted number
 
 1. Highlight a phone number on a web page.
 2. Right-click the highlighted number.
@@ -34,14 +34,14 @@ Tel2WhatsApp is a simple Chrome extension that lets you open phone numbers in Wh
 
 ![Right-click menu showing the Open in WhatsApp option](screenshots/menu.jpg)
 
-### Open a phone link
+### 🔗 Open a phone link
 
 1. Right-click a clickable phone number link.
 2. Click **Open in WhatsApp**.
 
 Chrome will open WhatsApp Web in a new tab using that number.
 
-## Country code for local numbers
+## 🌍 Country code for local numbers
 
 If a number does not include a country code, the extension can add one for you.
 
@@ -61,7 +61,7 @@ Examples:
 
 If the detected IP country does not match your saved country, the popup will show a warning. If you are using a VPN it could be the issue.
 
-## Updating the extension
+## 🔄 Updating the extension
 
 When a newer version is available, the popup will show an update notice.
 
@@ -72,6 +72,6 @@ To update:
 3. Go to `chrome://extensions`.
 4. Click the reload button on the Tel2WhatsApp card.
 
-## Download
+## ⬇️ Download
 
 [Download Tel2WhatsApp here](https://github.com/hovr/tel2whatsapp/archive/refs/heads/main.zip)
