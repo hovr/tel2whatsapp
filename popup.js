@@ -3,6 +3,7 @@ const IPAPI_LOOKUP_URL = 'https://ipapi.co/json/';
 const SELECTED_COUNTRY_KEY = 'selectedCountryCode';
 const IP_COUNTRY_KEY = 'ipCountryInfo';
 const IP_COUNTRY_CHECKED_AT_KEY = 'ipCountryCheckedAt';
+const IP_COUNTRY_CACHE_VERSION = 2;
 const IP_COUNTRY_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 
 const storageGet = (keys) => chrome.storage.local.get(keys);
@@ -10,6 +11,7 @@ const storageSet = (values) => chrome.storage.local.set(values);
 
 const countrySelect = document.getElementById('countrySelect');
 const countryStatus = document.getElementById('countryStatus');
+const recheckIpButton = document.getElementById('recheckIpButton');
 
 function setCountryStatus(message, type = 'info') {
   if (!countryStatus) {
@@ -42,7 +44,10 @@ async function fetchIpCountryInfo(force = false) {
   if (!force) {
     const stored = await storageGet([IP_COUNTRY_KEY, IP_COUNTRY_CHECKED_AT_KEY]);
     const cachedAt = stored[IP_COUNTRY_CHECKED_AT_KEY] || 0;
-    if (stored[IP_COUNTRY_KEY] && Date.now() - cachedAt < IP_COUNTRY_CACHE_TTL_MS) {
+    if (
+      stored[IP_COUNTRY_KEY]?.cacheVersion === IP_COUNTRY_CACHE_VERSION &&
+      Date.now() - cachedAt < IP_COUNTRY_CACHE_TTL_MS
+    ) {
       return stored[IP_COUNTRY_KEY];
     }
   }
@@ -86,7 +91,8 @@ async function fetchIpCountryInfo(force = false) {
     const info = {
       countryCode: country.code,
       countryName: countryName || country.name,
-      dialCode: country.dialCode
+      dialCode: country.dialCode,
+      cacheVersion: IP_COUNTRY_CACHE_VERSION
     };
 
     await storageSet({
@@ -167,6 +173,21 @@ countrySelect?.addEventListener('change', async () => {
   await storageSet({ [SELECTED_COUNTRY_KEY]: countrySelect.value });
   const stored = await storageGet(IP_COUNTRY_KEY);
   renderIpComparison(stored[IP_COUNTRY_KEY]);
+});
+
+recheckIpButton?.addEventListener('click', async () => {
+  recheckIpButton.disabled = true;
+  setCountryStatus('Checking your current IP country…', 'info');
+
+  try {
+    const ipInfo = await fetchIpCountryInfo(true);
+    renderIpComparison(ipInfo);
+  } catch (error) {
+    setCountryStatus('IP country check unavailable. Try again later or keep your saved country.', 'info');
+    console.debug('IP country recheck skipped:', error?.message || error);
+  } finally {
+    recheckIpButton.disabled = false;
+  }
 });
 
 document.addEventListener('DOMContentLoaded', () => {

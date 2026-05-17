@@ -51,6 +51,21 @@
       color: #52616b;
       font-size: 12px;
     }
+    .secondaryButton {
+      margin-top: 8px;
+      padding: 6px 10px;
+      border: 1px solid #128C7E;
+      border-radius: 999px;
+      background: #fff;
+      color: #128C7E;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .secondaryButton:disabled {
+      cursor: progress;
+      opacity: 0.65;
+    }
     .status {
       display: none;
       margin-top: 8px;
@@ -100,6 +115,7 @@
     <label for="countrySelect">Default country for local numbers</label>
     <select id="countrySelect" aria-label="Default country for local phone numbers"></select>
     <p class="hint">Used when a number does not include an international prefix. Numbers starting with <strong>00</strong> are treated as international.</p>
+    <button id="recheckIpButton" class="secondaryButton" type="button">Recheck IP country</button>
     <div id="countryStatus" class="status"></div>
   </div>
 

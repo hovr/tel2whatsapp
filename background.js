@@ -6,6 +6,7 @@ const IPAPI_LOOKUP_URL = 'https://ipapi.co/json/';
 const SELECTED_COUNTRY_KEY = 'selectedCountryCode';
 const IP_COUNTRY_KEY = 'ipCountryInfo';
 const IP_COUNTRY_CHECKED_AT_KEY = 'ipCountryCheckedAt';
+const IP_COUNTRY_CACHE_VERSION = 2;
 const IP_COUNTRY_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 
 const storageGet = (keys) => chrome.storage.local.get(keys);
@@ -74,7 +75,10 @@ function extractPhoneNumber(info) {
 async function fetchIpCountryInfo() {
   const stored = await storageGet([IP_COUNTRY_KEY, IP_COUNTRY_CHECKED_AT_KEY]);
   const cachedAt = stored[IP_COUNTRY_CHECKED_AT_KEY] || 0;
-  if (stored[IP_COUNTRY_KEY] && Date.now() - cachedAt < IP_COUNTRY_CACHE_TTL_MS) {
+  if (
+    stored[IP_COUNTRY_KEY]?.cacheVersion === IP_COUNTRY_CACHE_VERSION &&
+    Date.now() - cachedAt < IP_COUNTRY_CACHE_TTL_MS
+  ) {
     return stored[IP_COUNTRY_KEY];
   }
 
@@ -117,7 +121,8 @@ async function fetchIpCountryInfo() {
     const info = {
       countryCode: country.code,
       countryName: countryName || country.name,
-      dialCode: country.dialCode
+      dialCode: country.dialCode,
+      cacheVersion: IP_COUNTRY_CACHE_VERSION
     };
 
     await storageSet({
