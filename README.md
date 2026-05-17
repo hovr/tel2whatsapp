@@ -84,16 +84,25 @@ If you are already signed into WhatsApp Web, you should be able to start chattin
 
 If you are not signed in yet, WhatsApp may first ask you to log in.
 
-## Important note about phone numbers
+## Phone number formatting
 
-This extension removes spaces, brackets, dashes, and other symbols from the number before opening WhatsApp.
+The extension cleans up phone numbers before opening WhatsApp. It removes spaces, brackets, dashes, and other symbols.
 
-For best results, the number should include the **country code**.
+It also supports local numbers by using a saved default country.
 
-Example:
+Open the extension popup to choose your default country, for example:
 
-- Better: `15551234567`
-- Less reliable: `5551234567`
+`🇬🇧 United Kingdom (+44)`
+
+You can also click **Auto update Country** to detect your current country from your IP address and save it automatically.
+
+Examples:
+
+- `00441234223388` opens as `+441234223388`
+- `01234223388` with United Kingdom selected opens as `+441234223388`
+- `79374065` with Guatemala selected opens as `+50279374065`
+
+If your selected country does not match the country detected from your IP address, the popup will show a warning. If you are using a VPN it could be the issue.
 
 ## Troubleshooting
 
@@ -112,8 +121,10 @@ This usually means the number is not in the right format.
 Check that:
 
 - The number is a real mobile number
-- The country code is included
 - The selected text is actually the phone number and not extra words or symbols
+- The correct default country is selected in the extension popup for local numbers
+
+If the selected text is empty or does not look like a phone number, the extension will show an alert asking you to highlight a valid phone number or right-click a tel link and try again.
 
 ### The extension disappeared after restarting Chrome
 
@@ -145,5 +156,7 @@ If someone updates the files in this folder, you can refresh the extension like 
 - `background.js` handles the right-click menu and opens WhatsApp
 - `popup.html` and `popup.js` show a small extension popup
 - `version-check.js` checks GitHub for a newer version and shows an update link when one is available
+- `country-data.js` contains the country names, flags, and dialing codes used by the popup
+- `scripts/bump-version.js` and `scripts/install-hooks.sh` help automatically bump the extension version before commits
 
 If you only want to use the extension, you do not need to edit these files.
