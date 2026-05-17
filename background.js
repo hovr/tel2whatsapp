@@ -24,7 +24,7 @@ function showInvalidPhoneAlert(tabId) {
 
   chrome.scripting.executeScript({
     target: { tabId },
-    func: () => alert('Please highlight a valid phone number or right-click a tel link before opening WhatsApp.')
+    func: () => alert('Please highlight a valid phone number or right-click a tel link & try again.')
   }).catch((error) => {
     console.debug('Could not show invalid phone alert:', error?.message || error);
   });
@@ -103,6 +103,10 @@ function openInWhatsApp(info, tab) {
 
     chrome.tabs.create({
       url: `https://wa.me/${normalizedNumber}`
+    }, () => {
+      if (chrome.runtime.lastError) {
+        console.debug('Failed to open WhatsApp:', chrome.runtime.lastError.message);
+      }
     });
   });
 }
@@ -119,9 +123,8 @@ function setupContextMenu() {
 
 chrome.runtime.onInstalled.addListener(setupContextMenu);
 chrome.runtime.onStartup.addListener(setupContextMenu);
-setupContextMenu();
 
-chrome.contextMenus.onClicked.addListener((info) => {
+chrome.contextMenus.onClicked.addListener((info, tab) => {
   if (info.menuItemId !== MENU_ID) {
     return;
   }
