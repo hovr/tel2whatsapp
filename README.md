@@ -14,7 +14,7 @@ Tel2WhatsApp is a simple Chrome extension that lets you open phone numbers in Wh
 ## 🚀 How to install it
 
 1. [Download the ZIP file for this extension](https://github.com/hovr/tel2whatsapp/archive/refs/heads/main.zip).
-2. Open the ZIP file and move the extracted folder somewhere safe. Do not delete the folder after installing.
+2. Open the ZIP file and move the extracted folder somewhere it can stay (it needs to stay here for the extension to work).
 3. Open Chrome and go to:
 
    `chrome://extensions`
