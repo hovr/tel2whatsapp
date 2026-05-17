@@ -1,4 +1,5 @@
-const IP_LOOKUP_URL = 'https://ipapi.co/json/';
+const COUNTRY_LOOKUP_URL = 'https://api.country.is/';
+const IPAPI_LOOKUP_URL = 'https://ipapi.co/json/';
 const SELECTED_COUNTRY_KEY = 'selectedCountryCode';
 const IP_COUNTRY_KEY = 'ipCountryInfo';
 const IP_COUNTRY_CHECKED_AT_KEY = 'ipCountryCheckedAt';
@@ -50,17 +51,33 @@ async function fetchIpCountryInfo(force = false) {
   const timeoutId = setTimeout(() => controller.abort(), 4000);
 
   try {
-    const response = await fetch(IP_LOOKUP_URL, {
-      cache: 'no-store',
-      signal: controller.signal
-    });
+    const lookupUrls = [COUNTRY_LOOKUP_URL, IPAPI_LOOKUP_URL];
+    let countryCode = '';
+    let countryName = '';
 
-    if (!response.ok) {
-      throw new Error(`IP lookup failed (${response.status})`);
+    for (const lookupUrl of lookupUrls) {
+      try {
+        const response = await fetch(lookupUrl, {
+          cache: 'no-store',
+          signal: controller.signal
+        });
+
+        if (!response.ok) {
+          continue;
+        }
+
+        const data = await response.json();
+        countryCode = String(data?.country || data?.country_code || '').toUpperCase();
+        countryName = data?.country_name || '';
+
+        if (countryCode) {
+          break;
+        }
+      } catch (error) {
+        console.debug('Country lookup skipped:', error?.message || error);
+      }
     }
 
-    const data = await response.json();
-    const countryCode = String(data?.country_code || '').toUpperCase();
     const country = Tel2WhatsAppCountryData.findCountryByCode(countryCode);
     if (!country) {
       throw new Error('IP lookup did not return a supported country');
@@ -68,7 +85,7 @@ async function fetchIpCountryInfo(force = false) {
 
     const info = {
       countryCode: country.code,
-      countryName: data?.country_name || country.name,
+      countryName: countryName || country.name,
       dialCode: country.dialCode
     };
 
@@ -132,7 +149,12 @@ async function initializeCountrySelect() {
     if (selectedCountry) {
       countrySelect.value = selectedCountry.code;
     }
-    setCountryStatus(`IP country check unavailable. Your saved selection will still be used.`, 'info');
+    setCountryStatus(
+      selectedCountry
+        ? 'IP country check unavailable. Your saved selection will still be used.'
+        : 'IP country check unavailable. Choose a default country so local numbers can be converted.',
+      'info'
+    );
     console.debug('IP country check skipped:', error?.message || error);
   }
 }
