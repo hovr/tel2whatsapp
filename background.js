@@ -70,7 +70,14 @@ function extractPhoneNumber(info) {
     const phoneContext = parameterParts
       .map((part) => part.split('='))
       .find(([key]) => key?.toLowerCase() === 'phone-context')?.[1];
-    const decodedPhoneContext = phoneContext ? decodeURIComponent(phoneContext) : '';
+    let decodedPhoneContext = '';
+    if (phoneContext) {
+      try {
+        decodedPhoneContext = decodeURIComponent(phoneContext);
+      } catch (error) {
+        console.debug('Ignoring malformed tel phone-context:', error?.message || error);
+      }
+    }
 
     if (decodedPhoneContext.startsWith('+') && numberPart && !numberPart.startsWith('+')) {
       return `${decodedPhoneContext}${numberPart.replace(/^0+/, '')}`;

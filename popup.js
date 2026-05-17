@@ -52,58 +52,56 @@ async function fetchIpCountryInfo(force = false) {
     }
   }
 
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 4000);
+  const lookupUrls = [COUNTRY_LOOKUP_URL, IPAPI_LOOKUP_URL];
+  let countryCode = '';
+  let countryName = '';
 
-  try {
-    const lookupUrls = [COUNTRY_LOOKUP_URL, IPAPI_LOOKUP_URL];
-    let countryCode = '';
-    let countryName = '';
+  for (const lookupUrl of lookupUrls) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 4000);
 
-    for (const lookupUrl of lookupUrls) {
-      try {
-        const response = await fetch(lookupUrl, {
-          cache: 'no-store',
-          signal: controller.signal
-        });
+    try {
+      const response = await fetch(lookupUrl, {
+        cache: 'no-store',
+        signal: controller.signal
+      });
 
-        if (!response.ok) {
-          continue;
-        }
-
-        const data = await response.json();
-        countryCode = String(data?.country || data?.country_code || '').toUpperCase();
-        countryName = data?.country_name || '';
-
-        if (countryCode) {
-          break;
-        }
-      } catch (error) {
-        console.debug('Country lookup skipped:', error?.message || error);
+      if (!response.ok) {
+        continue;
       }
+
+      const data = await response.json();
+      countryCode = String(data?.country || data?.country_code || '').toUpperCase();
+      countryName = data?.country_name || '';
+
+      if (countryCode) {
+        break;
+      }
+    } catch (error) {
+      console.debug('Country lookup skipped:', error?.message || error);
+    } finally {
+      clearTimeout(timeoutId);
     }
-
-    const country = Tel2WhatsAppCountryData.findCountryByCode(countryCode);
-    if (!country) {
-      throw new Error('IP lookup did not return a supported country');
-    }
-
-    const info = {
-      countryCode: country.code,
-      countryName: countryName || country.name,
-      dialCode: country.dialCode,
-      cacheVersion: IP_COUNTRY_CACHE_VERSION
-    };
-
-    await storageSet({
-      [IP_COUNTRY_KEY]: info,
-      [IP_COUNTRY_CHECKED_AT_KEY]: Date.now()
-    });
-
-    return info;
-  } finally {
-    clearTimeout(timeoutId);
   }
+
+  const country = Tel2WhatsAppCountryData.findCountryByCode(countryCode);
+  if (!country) {
+    throw new Error('IP lookup did not return a supported country');
+  }
+
+  const info = {
+    countryCode: country.code,
+    countryName: countryName || country.name,
+    dialCode: country.dialCode,
+    cacheVersion: IP_COUNTRY_CACHE_VERSION
+  };
+
+  await storageSet({
+    [IP_COUNTRY_KEY]: info,
+    [IP_COUNTRY_CHECKED_AT_KEY]: Date.now()
+  });
+
+  return info;
 }
 
 function renderIpComparison(ipInfo) {
