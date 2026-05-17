@@ -1,5 +1,5 @@
 const LATEST_MANIFEST_URL = 'https://raw.githubusercontent.com/hovr/tel2whatsapp/main/manifest.json';
-const RELEASES_URL = 'https://github.com/hovr/tel2whatsapp';
+const RELEASES_URL = 'https://github.com/hovr/tel2whatsapp/blob/main/README.md';
 
 const compareVersions = (currentVersion, latestVersion) => {
   const currentParts = String(currentVersion || '').split('.').map((part) => Number.parseInt(part, 10) || 0);
