@@ -70,7 +70,7 @@ To update:
 
 1. Download the latest ZIP file.
 2. Replace your old extension folder with the new extracted folder.
-3. Go to `chrome://extensions`.
+3. Open Chrome and go to **Settings > Extensions**.
 4. Click the reload button on the Tel2WhatsApp card.
 
 ## ⬇️ Download
